@@ -7,5 +7,5 @@ import (
 )
 
 type FileRepository interface {
-	SaveCV(ctx context.Context, file multipart.File) (*url.URL, error)
+	StoreCV(ctx context.Context, file multipart.File) (*url.URL, error)
 }

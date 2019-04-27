@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	commonEntity "onlineApplicationAPI/src/application/common/entity"
 	"onlineApplicationAPI/src/application/submit"
 	"onlineApplicationAPI/src/application/submit/entity"
 
@@ -63,17 +64,16 @@ func (handler *submitHandler) Submit(c *gin.Context) {
 		PersonalID: requestData.PersonalID,
 		Birth: struct {
 			Date     time.Time
-			Location entity.Location
+			Location commonEntity.Location
 		}{Date: requestData.BirthDate, Location: struct {
 			Name      string
 			Latitude  *float64
 			Longitude *float64
 		}{Name: requestData.BirthLocation, Latitude: nil, Longitude: nil}},
-		CurriculumVitae: file,
-		CreatedBy:       userUUID,
+		CreatedBy: userUUID,
 	}
 
-	ok, err := handler.submitUseCase.SubmitApplication(ctx, newApplication)
+	ok, err := handler.submitUseCase.SubmitApplication(ctx, newApplication, file)
 	if err != nil {
 		c.AbortWithError(http.StatusInternalServerError, err)
 	}

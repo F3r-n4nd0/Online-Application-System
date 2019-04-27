@@ -2,15 +2,17 @@ package entity
 
 import (
 	"net/url"
-
-	"onlineApplicationAPI/src/application/common/entity"
+	"time"
 )
 
-type NewApplication struct {
+type Application struct {
+	UUID            string
 	Email           string
 	Name            string
 	PersonalID      string
-	Birth           entity.Birth
+	Birth           Birth
 	CurriculumVitae url.URL
 	CreatedBy       string
+	CreatedAt       time.Time
+	UpdatedAt       time.Time
 }

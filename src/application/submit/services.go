@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	"onlineApplicationAPI/src/application/submit/entity"
+	commonEntity "onlineApplicationAPI/src/application/common/entity"
 )
 
 type EmailService interface {
@@ -12,7 +12,7 @@ type EmailService interface {
 }
 
 type QueueToCompleteApplicationsService interface {
-	ProcessNewApplication(ctx context.Context, newApplication entity.NewApplication) error
+	CompleteApplication(ctx context.Context, application commonEntity.Application) error
 }
 
 type AuthenticationService interface {

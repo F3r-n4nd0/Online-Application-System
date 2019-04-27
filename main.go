@@ -1,8 +1,11 @@
-package onlineApplicationAPI
+package main
 
 import (
 	"time"
 
+	completeRepository "onlineApplicationAPI/src/application/complete/repository"
+	completeService "onlineApplicationAPI/src/application/complete/services"
+	completeUsecase "onlineApplicationAPI/src/application/complete/usecase"
 	"onlineApplicationAPI/src/application/submit/delibery/http"
 	"onlineApplicationAPI/src/application/submit/repository"
 	"onlineApplicationAPI/src/application/submit/service"
@@ -17,10 +20,14 @@ func main() {
 	ginEngine := createGinHttpHandler()
 
 	authenticationService := service.NewDefaultAuhtenticationServices()
-
 	emailService := service.NewDefaultEmailServices()
+	bullySystem := completeService.NewDefaultBullyServices()
+
+	applicationRepository := completeRepository.NewMysqlApplicationRepository()
+	completeQueueUseCase := completeUsecase.NewCompleteUseCase(emailService, bullySystem, applicationRepository)
+
 	fileRepository := repository.NewDefaultFileRepository()
-	submitUseCase := usecase.NewSubmitUseCase(emailService, fileRepository)
+	submitUseCase := usecase.NewSubmitUseCase(emailService, completeQueueUseCase, fileRepository)
 
 	http.NewSubmitGinHTTPHandler(ginEngine, submitUseCase, authenticationService)
 

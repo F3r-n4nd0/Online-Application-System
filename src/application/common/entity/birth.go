@@ -3,6 +3,6 @@ package entity
 import "time"
 
 type Birth struct {
-	Date time.Time
+	Date     time.Time
 	Location Location
 }
